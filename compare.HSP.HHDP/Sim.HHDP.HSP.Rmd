@@ -1,0 +1,339 @@
+
+```{r}
+rm(list=ls(all=TRUE))
+```
+
+
+
+```{r}
+# Thinning
+R = 10000
+seq_thin = seq(0.2*R, R, by=1)
+
+library(mcclust)
+library("mcclust.ext")
+source("/Users/ziyisong/Desktop/Project_HSP/NFD.R")
+source("/Users/ziyisong/Desktop/Project_HSP/F1Measure.R")
+source("/Users/ziyisong/Desktop/Project_HSP/relabel.R")
+J=60
+I=30
+  
+true.col.partition = c( rep(1,20), rep(2,20), rep(3,20) )
+
+seeds = seq(1, 50, by=1)
+
+#nfd_HSP = rep(NA, 50)
+ari_HSP = rep(NA, 50)
+f1measure_HSP = rep(NA, 50)
+
+for (i in 1:50){
+  seedsSet = seeds[i]
+  file_name <- paste0("~/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/HSP.0.3.3/HSP.0.3.3/HSP_Simulation_Results_Seeds",
+                      seedsSet, ".RDS")
+  hsp = readRDS(file_name)
+  
+  MCMClabels.c = hsp$partition_c_iterations[seq_thin, ]       
+  psm.c = comp.psm(MCMClabels.c)
+  #nfd_HSP[i] = NFD(psm.c, true.psm.trials)
+  
+  avg = minVI(psm.c, MCMClabels.c, method=("all"), include.greedy=TRUE)
+  print( relabel(avg$cl[1,]) )
+  ari_HSP[i] = arandi(avg$cl[1,], true.col.partition)
+
+  f1measure_HSP[i] = F1Measure(est.partition=avg$cl[1,], true.partition=true.col.partition)
+}
+```
+
+
+
+
+```{r}
+# Thinning
+R = 10000
+seq_thin = seq(0.2*R, R, by=1)
+
+
+library(mcclust)
+library("mcclust.ext")
+source("/Users/ziyisong/Desktop/Project_HSP/NFD.R")
+source("/Users/ziyisong/Desktop/Project_HSP/F1Measure.R")
+J=60
+I=30
+
+true.col.partition = c( rep(1,20), rep(2,20), rep(3,20) )
+
+seeds = seq(1, 50, by=1)
+
+ari_HHDP = rep(NA, 50)
+f1measure_HHDP = rep(NA, 50)
+for (i in 1:50){
+  seedsSet = seeds[i]
+  file_name = paste0("~/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/HHDP/compare.HHDP.HSP/HHDP_Simulation_Results_Seeds",
+                     seedsSet, ".RDS")
+  save.result = readRDS(file_name)
+  
+  MCMClabels.c = save.result$cluster.dis.out[seq_thin, ]
+  psm.c = comp.psm(MCMClabels.c)
+  avg = minVI(psm.c, MCMClabels.c, method=("all"), include.greedy=TRUE)
+  print(avg$cl[1,])
+  ari_HHDP[i] = arandi(avg$cl[1,], true.col.partition)
+  f1measure_HHDP[i] = F1Measure(est.partition=avg$cl[1,], true.partition=true.col.partition)
+}
+```
+
+
+
+
+
+```{r}
+#TTT = data.frame( ARI=c(ari_NoBLoC, ari_HSP, ari_HHDP), Model=c(rep("NoB-LoC",50),rep("HSP",50),rep("HHDP",50) ) )
+TTT = data.frame(ARI=c(ari_HSP, ari_HHDP), Model=c(rep("HSP",50),rep("HHDP",50)))
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=ARI, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="ARI: clustering subjects", x="Models", y="Adjusted Rand Index") +
+  ylim(0,1) +
+  theme_classic()
+
+```
+
+
+
+
+```{r}
+# TTT = data.frame( F1_Measure=c(f1measure_NoBLoC, f1measure_HSP, f1measure_HHDP),
+#                  Model=c(rep("NoB-LoC",50),rep("HSP",50),rep("HHDP",50) ) )
+TTT = data.frame(F1_Measure=c(f1measure_HSP, f1measure_HHDP), Model=c(rep("HSP",50),rep("HHDP",50)))
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=F1_Measure, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="F1-Measure: clustering subjects", x="Models", y="F1-Measure") +
+  ylim(0,1) + 
+  theme_classic()
+```
+
+
+
+
+
+
+```{r}
+# Thinning
+R = 10000
+seq_thin = seq(0.2*R, R, by=1)
+
+library(MCMCprecision)
+library(mcclust)
+library("mcclust.ext")
+source("/Users/ziyisong/Desktop/Project_HSP/NFD.R")
+source("/Users/ziyisong/Desktop/Project_HSP/F1Measure.R")
+
+seeds = seq(1, 50, by=1)
+J=60
+I=30
+
+ari_HSP.subjects.avg = rep(NA, 50)
+f1measure_HSP.subjects.avg = rep(NA, 50)
+#nfd_HSP.subjects.avg = rep(NA, 50)
+for (i in 1:50){
+  seedsSet = seeds[i]
+  file_name <- paste0("~/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/HSP.0.3.3/HSP.0.3.3/HSP_Simulation_Results_Seeds",
+                      seedsSet, ".RDS")
+  hsp = readRDS(file_name)
+  
+  set.seed(i)
+  labels.matrix = matrix(NA, nrow=I, ncol=J)
+  a = c(rep(1,5), rep(1,5), rep(2,5), rep(2,5), rep(3,5), rep(3,5))
+  b = c(rep(1,5), rep(2,5), rep(3,5), rep(1,5), rep(3,5), rep(2,5))
+  c = c(rep(1,5), rep(2,5), rep(1,5), rep(3,5), rep(2,5), rep(3,5))
+  for (j in 1:20){
+    labels.matrix[,j] = a
+  }
+  for (j in 21:40){
+    labels.matrix[,j] = b
+  }
+  for (j in 41:J){
+    labels.matrix[,j] = c
+  }
+  true.partition.subjects = labels.matrix
+  
+  
+  # true.psm.subjects = list()
+  # for (j in 1:J){
+  #   true.psm.subjects[[j]] = matrix(0, I, I)
+  #   c.table = as.vector(table(true.partition.subjects[,j]))
+  #   c.table.accu = cumsum(c.table)
+  #   for (a in 1:length(c.table)){
+  #     true.psm.subjects[[j]][((c.table.accu[a]-c.table[a]+1):c.table.accu[a]), ((c.table.accu[a]-c.table[a]+1):c.table.accu[a])] = 1
+  #   }
+  # }
+  
+  
+  ari_HSP.subjects = rep(NA, J)
+  f1measure_HSP.subjects = rep(NA, J)
+  #nfd_HSP.subjects = rep(NA, J)
+  for (j in 1:J){
+    MCMClabels.pi.j = hsp$pi_partitions_iterations[[j]][seq_thin, ]
+    psm.pi.j = comp.psm(MCMClabels.pi.j)
+    #nfd_HSP.subjects[j] = NFD(psm.pi.j, true.psm.subjects[[j]])
+    avg.j = minVI(psm.pi.j, MCMClabels.pi.j, method=("all"), include.greedy=TRUE)
+    ari_HSP.subjects[j] = arandi(avg.j$cl[1,], true.partition.subjects[,j])
+    f1measure_HSP.subjects[j] = F1Measure(est.partition=avg.j$cl[1,], 
+                                          true.partition = true.partition.subjects[,j])
+  }
+  
+  ari_HSP.subjects.avg[i] = mean(ari_HSP.subjects)
+  f1measure_HSP.subjects.avg[i] = mean(f1measure_HSP.subjects)
+  #nfd_HSP.subjects.avg[i] = mean(nfd_HSP.subjects)
+}
+```
+
+
+```{r}
+saveRDS(ari_HSP.subjects.avg, 
+        file="/Users/ziyisong/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/ari_HSP.subjects.avg.033.RDS")
+saveRDS(f1measure_HSP.subjects.avg, 
+        file="/Users/ziyisong/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/f1measure_HSP.subjects.avg.033.RDS")
+```
+
+
+
+
+```{r}
+# Thinning
+R = 10000
+seq_thin = seq(0.2*R, R, by=1)
+
+library(mcclust)
+library("mcclust.ext")
+source("/Users/ziyisong/Desktop/Project_HSP/NFD.R")
+source("/Users/ziyisong/Desktop/Project_HSP/F1Measure.R")
+
+seeds = seq(1, 50, by=1)
+J=60
+I=30
+
+ari_HHDP.subjects.avg = rep(NA, 50)
+f1measure_HHDP.subjects.avg = rep(NA, 50)
+
+for (i in 1:50){
+  set.seed(i)
+  labels.matrix = matrix(NA, nrow=I, ncol=J)
+  a = c(rep(1,5), rep(1,5), rep(2,5), rep(2,5), rep(3,5), rep(3,5))
+  b = c(rep(1,5), rep(2,5), rep(3,5), rep(1,5), rep(3,5), rep(2,5))
+  c = c(rep(1,5), rep(2,5), rep(1,5), rep(3,5), rep(2,5), rep(3,5))
+  for (j in 1:20){
+    labels.matrix[,j] = a
+  }
+  for (j in 21:40){
+    labels.matrix[,j] = b
+  }
+  for (j in 41:J){
+    labels.matrix[,j] = c
+  }
+  true.partition.subjects = labels.matrix
+  
+  seedsSet = seeds[i]
+  file_name <- paste0("~/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/HHDP/compare.HHDP.HSP/HHDP_Simulation_Results_Seeds",
+                      seedsSet, ".RDS")
+  hhdp = readRDS(file_name)
+  
+  ari_HHDP.subjects = rep(NA, J)
+  f1measure_HHDP.subjects = rep(NA, J)
+  
+  cluster.data.out = hhdp$cluster.data.out
+  cluster.data.out.mc = t(apply(X=cluster.data.out[seq_thin,], MARGIN=1,
+                              FUN=function(x){as.integer(factor(x))}))
+  # Compute the dissimilarity matrix between areas on the MCMC labels
+  dissimlar = comp.psm(cluster.data.out.mc)
+  
+  for (j in 1:J){
+    psm.j = dissimlar[((j-1)*I+1):(j*I), ((j-1)*I+1):(j*I)]
+    cluster.data.out.mc.j = cluster.data.out.mc[,((j-1)*I+1):(j*I)]
+    avg.j = minVI(psm.j, cluster.data.out.mc.j, method=("all"), include.greedy=FALSE)
+    ari_HHDP.subjects[j] = arandi(avg.j$cl[1,], true.partition.subjects[,j])
+    f1measure_HHDP.subjects[j] = F1Measure(est.partition=avg.j$cl[1,], 
+                                          true.partition = true.partition.subjects[,j])
+  }
+  
+  ari_HHDP.subjects.avg[i] = mean(ari_HHDP.subjects)
+  # print(ari_HHDP.subjects.avg[i])
+  f1measure_HHDP.subjects.avg[i] = mean(f1measure_HHDP.subjects)
+}
+```
+
+
+
+```{r}
+saveRDS(ari_HHDP.subjects.avg, 
+        file="/Users/ziyisong/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/ari_HHDP.subjects.avg.RDS")
+saveRDS(f1measure_HHDP.subjects.avg, 
+        file="/Users/ziyisong/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/f1measure_HHDP.subjects.avg.RDS")
+```
+
+
+
+
+
+```{r}
+ari_HSP.subjects.avg = readRDS("/Users/ziyisong/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/ari_HSP.subjects.avg.033.RDS")
+f1measure_HSP.subjects.avg = readRDS("/Users/ziyisong/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/f1measure_HSP.subjects.avg.033.RDS")
+ari_HHDP.subjects.avg = readRDS("/Users/ziyisong/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/ari_HHDP.subjects.avg.RDS")
+f1measure_HHDP.subjects.avg = readRDS("/Users/ziyisong/Desktop/Project_HSP/new.simulations/compare.HSP.HHDP/f1measure_HHDP.subjects.avg.RDS")
+```
+
+
+
+```{r}
+#TTT = data.frame(ARI.subjects.avg=c(ari_HHDP.subjects.avg, ari_HSP.subjects.avg, ari_NoBLoC.subjects.avg),
+#                 Model=c(rep("HHDP",50),rep("HSP",50),rep("NoB-LoC",50)))
+TTT = data.frame(ARI.subjects.avg=c(ari_HSP.subjects.avg, ari_HHDP.subjects.avg),
+                 Model=c(rep("HSP",50),rep("HHDP",50)))
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=ARI.subjects.avg, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="(averaged across subjects) ARI:\n clustering conditions", x="Models", y="Adjusted Rand Index") +
+  #scale_fill_manual(values=c("#999999", "#E69F00")) + 
+  # ylim(0,1) +
+  theme_classic()
+```
+
+
+
+
+```{r}
+#TTT = data.frame(F1Measure.subjects.avg=c(f1measure_HHDP.subjects.avg, 
+#                                          f1measure_HSP.subjects.avg, f1measure_NoBLoC.subjects.avg),
+#                 Model=c(rep("HHDP",50),rep("HSP",50),rep("NoB-LoC",50)))
+TTT = data.frame(F1Measure.subjects.avg=c(f1measure_HSP.subjects.avg, f1measure_HHDP.subjects.avg),
+                 Model=c(rep("HSP",50),rep("HHDP",50)))
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=F1Measure.subjects.avg, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="(averaged across subjects) F1-Measure:\n clustering conditions", x="Models", y="F1 Measure") +
+  #scale_fill_manual(values=c("#999999", "#E69F00")) + 
+  # ylim(0,1) +
+  theme_classic()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
