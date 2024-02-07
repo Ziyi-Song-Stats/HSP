@@ -1,1 +1,1 @@
-This folder contains the code for the paper ”Clustering Computer Mouse Tracking Data with Informed Hierarchical Shrinkage Partition Priors" by Ziyi Song, Weining Shen, Marina Vannucci, Alexandria Baldizon, Francesco Versace, and Michele Guindani (2023).
+This folder contains the code for the paper ”Clustering Computer Mouse Tracking Data with Informed Hierarchical Shrinkage Partition Priors" by Ziyi Song, Weining Shen, Marina Vannucci, Alexandria Baldizon, Paul M. Cinciripini, Francesco Versace, and Michele Guindani (2023).
