@@ -1,0 +1,74 @@
+
+```{r}
+library(invgamma)
+library(MASS)
+library(mnormt)
+library(readxl)
+library(Rcpp)
+library(RcppArmadillo) 
+Rcpp::sourceCpp("/Users/ziyisong/Desktop/realdata/log_sp_prob.cpp")
+Rcpp::sourceCpp("/Users/ziyisong/Desktop/realdata/prior_simulate_sp_partition.cpp")
+source("/Users/ziyisong/Desktop/realdata/update_c.R")
+source("/Users/ziyisong/Desktop/realdata/update_mu_partitions.R")
+source("/Users/ziyisong/Desktop/realdata/update_pi_partitions.R")
+source("/Users/ziyisong/Desktop/realdata/update_thetas.R")
+source("/Users/ziyisong/Desktop/realdata/hierarchical_shrinkage_partition.R")
+
+priorinfo.cols = read.csv("/Users/ziyisong/Desktop/realdata/2022_10_LPP_400_800_cluster_toMichele.csv")
+final.ID.list = c(25,26,33,34,45,51,53,55,57,59,
+                  65,69,74,76,79,83,86,87,90,95,
+                  98,100,101,104,111,112,120,122,127,129,
+                  130,132,136,142,143,144,147,150,151,157,
+                  158,171,172)
+final.ID = match(final.ID.list, priorinfo.cols$SUBID)
+final.column.clusters = priorinfo.cols$GROUP.ASSIGNEMENT[final.ID]
+col.prior.index.1 = which(final.column.clusters == 1)
+col.prior.index.2 = which(final.column.clusters == 2)
+baseline_for_c = c( rep(1, length(col.prior.index.1)), rep(2, length(col.prior.index.2)) )
+
+
+source("/Users/ziyisong/Desktop/realdata/get.rawdata.R")
+rawdata = get.rawdata(curvature_index = "MAD", condition="NP")
+rawdata = cbind( rawdata[ , col.prior.index.1], rawdata[ , col.prior.index.2] )
+rawdata = round(rawdata, 1)
+```
+
+
+
+```{r}
+#rawdata
+
+hist(as.vector(rawdata))
+
+mean(rawdata[rawdata > 0.5])
+
+sd(rawdata[rawdata > 0.5])
+
+mean(rawdata[rawdata < - 0.5])
+
+sd(rawdata[rawdata < - 0.5])
+
+```
+
+
+```{r}
+library(mixR)
+
+fit1 = mixfit(x=as.vector(rawdata), ncomp=3, family="normal",
+              ev=TRUE, max_iter = 1000)
+
+plot(fit1)
+ggsave("mimic_realdata.pdf", 
+       width=5, height=3.5)
+
+fit1$pi
+fit1$mu
+fit1$sd
+fit1$iter
+```
+
+
+
+
+
+
