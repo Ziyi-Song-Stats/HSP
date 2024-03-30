@@ -1,0 +1,8 @@
+
+This folder contains all the codes for Simulation 2 in our paper. 
+
+The folder “HSP.0.4.3.5_simulation2” contains all the codes and 50 replicated simulation results of our HSP method in the scenario Simulation 2 in our paper. 
+
+The folder “HHDP_simulation2_results” contains the 50 replicated simulation results of method HHDP in the scenario Simulation 2. We don’t provide the implementation codes for HHDP here. If you are interested in it, please contact with the author Dr. Giovanni Rebaudo from University of Torino.
+
+The “Sim2_plots.Rmd” contains the codes to generate the 2 comparison plots for Simulation 2, as presented in the paper. We also put the two plots here. 
