@@ -1,0 +1,168 @@
+
+
+```{r}
+ari_HSP0.1 = rep(NA, 50)
+f1measure_HSP0.1 = rep(NA, 50)
+ari_HSP.subjects.avg0.1 = rep(NA, 50)
+f1measure_HSP.subjects.avg0.1 = rep(NA, 50)
+ari_NoBLoC0.1 = rep(NA, 50)
+f1measure_NoBLoC0.1 = rep(NA, 50)
+ari_NoBLoC.subjects.avg0.1 = rep(NA, 50)
+f1measure_NoBLoC.subjects.avg0.1 = rep(NA, 50)
+
+ari_HSP0.2 = rep(NA, 50)
+f1measure_HSP0.2 = rep(NA, 50)
+ari_HSP.subjects.avg0.2 = rep(NA, 50)
+f1measure_HSP.subjects.avg0.2 = rep(NA, 50)
+ari_NoBLoC0.2 = rep(NA, 50)
+f1measure_NoBLoC0.2 = rep(NA, 50)
+ari_NoBLoC.subjects.avg0.2 = rep(NA, 50)
+f1measure_NoBLoC.subjects.avg0.2 = rep(NA, 50)
+
+ari_HSP0.3 = rep(NA, 50)
+f1measure_HSP0.3 = rep(NA, 50)
+ari_HSP.subjects.avg0.3 = rep(NA, 50)
+f1measure_HSP.subjects.avg0.3 = rep(NA, 50)
+ari_NoBLoC0.3 = rep(NA, 50)
+f1measure_NoBLoC0.3 = rep(NA, 50)
+ari_NoBLoC.subjects.avg0.3 = rep(NA, 50)
+f1measure_NoBLoC.subjects.avg0.3 = rep(NA, 50)
+
+
+for (i in 1:50){
+  hsp = readRDS(paste0("HSP.0.0.3.5_level10/HSP.0.0.3.5_level10_results/HSP_Simulation_Results_Seeds",
+                      i, ".RDS"))
+  ari_HSP0.1[i] = hsp$ari_HSP
+  f1measure_HSP0.1[i] = hsp$f1measure_HSP
+  ari_HSP.subjects.avg0.1[i] = hsp$ari_HSP.subjects.avg
+  f1measure_HSP.subjects.avg0.1[i] = hsp$f1measure_HSP.subjects.avg
+  
+  NoBLoC = readRDS(paste0("NoBLoC_level10_results/NoBLoC_Simulation_Results_Seeds", i, ".RDS"))
+  ari_NoBLoC0.1[i] = NoBLoC$ari_NoBLoC
+  f1measure_NoBLoC0.1[i] = NoBLoC$f1measure_NoBLoC
+  ari_NoBLoC.subjects.avg0.1[i] = NoBLoC$ari_NoBLoC.subjects.avg
+  f1measure_NoBLoC.subjects.avg0.1[i] = NoBLoC$f1measure_NoBLoC.subjects.avg
+}
+
+
+for (i in 1:50){
+  hsp = readRDS(paste0("HSP.0.0.3.5_level20/HSP.0.0.3.5_level20_results/HSP_Simulation_Results_Seeds",
+                      i, ".RDS"))
+  ari_HSP0.2[i] = hsp$ari_HSP
+  f1measure_HSP0.2[i] = hsp$f1measure_HSP
+  ari_HSP.subjects.avg0.2[i] = hsp$ari_HSP.subjects.avg
+  f1measure_HSP.subjects.avg0.2[i] = hsp$f1measure_HSP.subjects.avg
+  
+  NoBLoC = readRDS(paste0("NoBLoC_level20_results/NoBLoC_Simulation_Results_Seeds", i, ".RDS"))
+  ari_NoBLoC0.2[i] = NoBLoC$ari_NoBLoC
+  f1measure_NoBLoC0.2[i] = NoBLoC$f1measure_NoBLoC
+  ari_NoBLoC.subjects.avg0.2[i] = NoBLoC$ari_NoBLoC.subjects.avg
+  f1measure_NoBLoC.subjects.avg0.2[i] = NoBLoC$f1measure_NoBLoC.subjects.avg
+}
+
+
+for (i in 1:50){
+  hsp = readRDS(paste0("HSP.0.0.3.5_level30/HSP.0.0.3.5_level30_results/HSP_Simulation_Results_Seeds",
+                      i, ".RDS"))
+  ari_HSP0.3[i] = hsp$ari_HSP
+  f1measure_HSP0.3[i] = hsp$f1measure_HSP
+  ari_HSP.subjects.avg0.3[i] = hsp$ari_HSP.subjects.avg
+  f1measure_HSP.subjects.avg0.3[i] = hsp$f1measure_HSP.subjects.avg
+  
+  NoBLoC = readRDS(paste0("NoBLoC_level30_results/NoBLoC_Simulation_Results_Seeds", i, ".RDS"))
+  ari_NoBLoC0.3[i] = NoBLoC$ari_NoBLoC
+  f1measure_NoBLoC0.3[i] = NoBLoC$f1measure_NoBLoC
+  ari_NoBLoC.subjects.avg0.3[i] = NoBLoC$ari_NoBLoC.subjects.avg
+  f1measure_NoBLoC.subjects.avg0.3[i] = NoBLoC$f1measure_NoBLoC.subjects.avg
+}
+```
+
+
+
+
+
+
+```{r}
+library("reshape2")
+library("ggplot2")
+dat = data.frame(
+                 "10 %" = c(ari_HSP0.1, ari_NoBLoC0.1),
+           "20 %" = c(ari_HSP0.2, ari_NoBLoC0.2),
+           "30 %" = c(ari_HSP0.3, ari_NoBLoC0.3),
+           Model = c(rep("HSP",50), rep("NoB-LoC",50)),
+           check.names = FALSE
+           )
+dat_long = melt(dat, id="Model")
+ggplot(dat_long, aes(x=variable, y=value, color=Model)) +
+  geom_boxplot(notch=FALSE) +
+  labs(title="ARI: clustering subjects", x="Contamination Level", y="Adjusted Rand Index") +
+  #ylim(0,1) +
+  theme_classic()
+ggsave("Sim1b_ari_subjects.pdf", 
+       width=5, height=3.5)
+
+dat = data.frame(
+                 "10 %" = c(f1measure_HSP0.1, f1measure_NoBLoC0.1),
+           "20 %" = c(f1measure_HSP0.2, f1measure_NoBLoC0.2),
+           "30 %" = c(f1measure_HSP0.3, f1measure_NoBLoC0.3),
+           Model = c(rep("HSP",50), rep("NoB-LoC",50)),
+           check.names = FALSE
+           )
+dat_long = melt(dat, id="Model")
+ggplot(dat_long, aes(x=variable, y=value, color=Model)) +
+  geom_boxplot(notch=FALSE) +
+  labs(title="F1-Measure: clustering subjects", x="Contamination Level", y="F1-Measure") +
+  #ylim(0,1) +
+  theme_classic()
+ggsave("Sim1b_f1_subjects.pdf", 
+      width=5, height=3.5)
+
+library("reshape2")
+library("ggplot2")
+dat = data.frame(
+                 "10 %" = c(ari_HSP.subjects.avg0.1, ari_NoBLoC.subjects.avg0.1),
+           "20 %" = c(ari_HSP.subjects.avg0.2, ari_NoBLoC.subjects.avg0.2),
+           "30 %" = c(ari_HSP.subjects.avg0.3, ari_NoBLoC.subjects.avg0.3),
+           Model = c(rep("HSP",50), rep("NoB-LoC",50)),
+           check.names = FALSE
+           )
+
+dat_long = melt(dat, id="Model")
+ggplot(dat_long, aes(x=variable, y=value, color=Model)) +
+  geom_boxplot(notch=FALSE) +
+  labs(title="(averaged across subjects) ARI: \n clustering conditions", 
+       x="Contamination Level", y="Adjusted Rand Index") +
+  #ylim(0,1) +
+  theme_classic()
+ggsave("Sim1b_ari_conditions.pdf", 
+       width=5, height=3.5)
+
+dat = data.frame(
+                 "10 %" = c(f1measure_HSP.subjects.avg0.1, f1measure_NoBLoC.subjects.avg0.1),
+           "20 %" = c(f1measure_HSP.subjects.avg0.2, f1measure_NoBLoC.subjects.avg0.2),
+           "30 %" = c(f1measure_HSP.subjects.avg0.3, f1measure_NoBLoC.subjects.avg0.3),
+           Model = c(rep("HSP",50), rep("NoB-LoC",50)),
+           check.names = FALSE
+           )
+
+dat_long = melt(dat, id="Model")
+
+ggplot(dat_long, aes(x=variable, y=value, color=Model)) +
+  geom_boxplot(notch=FALSE) +
+  labs(title="(averaged across subjects) F1-Measure:\n clustering conditions", 
+       x="Contamination Level", y="F1 Measure") +
+  #ylim(0,1) +
+  theme_classic()
+ggsave("Sim1b_f1_conditions.pdf", 
+       width=5, height=3.5)
+```
+
+
+
+
+
+
+
+
+
+
