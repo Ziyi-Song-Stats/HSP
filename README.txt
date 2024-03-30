@@ -15,6 +15,14 @@ The folder "Functions" contains the main functions implemented for our HSP metho
 
 "HSP_Rcppfuncs_permute.cpp": log_sp_prob_permute() computes the log probability density of a partition given the base partition and the baseline CRP distribution under Shrinkage Partition distribution. prior_simulate_sp_partition() generates a new partition given a base partition under Shrinkage Partition distribution. See details in the paper. This file is written in Rcpp for speeding up. 
 
+"HSP_Rfuncs_permute.R": Functions for MCMC samplings. See MCMC details in our Supplementary Material. The function hierarchical_shrinkage_partition_permute() outputs a list of MCMC iteration results, which include subject partition, condition partition within each subject, permutation parameters, etc., for each iteration. 
+
+"HSPSimulations.R": Given simulated data, informed base partitions of subjects and conditions, and shrinkage parameter values and others, it runs our method and put mcmc results in a list, called hsp. Then, it calculate ARI and F1 measurements between the estimated partitions and ground truth or the given base partitions. You can change the shrinkage parameter values by yourself when you run it. See details in our paper.
+
+
+
+Feel free to contact me via ziyis9@uci.edu if you are interested in it.
+
 
 
 
