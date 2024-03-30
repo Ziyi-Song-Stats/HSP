@@ -1,0 +1,7 @@
+Files in this folder are used for Simulation 1(a) in our paper. 
+
+The “HSP.0.0.3.5_level0” folder contains the codes for our HSP method in the scenario of Simulation 1(a). It also contains a further folder “ HSP.0.0.3.5_level0_results”, that have 50 replications results. 
+
+The “NoBLoC_level0” contains the 50 replications results of the NoB-LoC method, in the scenario of Simulation 1(a). We don’t provide the codes for NoB-LoC here. If you are interested in it, please contact with its author Dr. Juhee Lee at University of California Santa Cruz. 
+
+The “Sim1a_plots.Rmd” contains the codes to generate the comparison plots for Simulation 1(a) in our paper. We also have the 4 generated comparison plots here for your convenience. 
