@@ -2,7 +2,9 @@ This folder contains the code for the paper ”Clustering Computer Mouse Trackin
 
 Feel free to download the zip file. Codes used for the paper should be in it.
 
-The folders Simulation 1a, Simulation 1b, and Simulation 2 correspond to the simulation scenarios in the paper. Each folder contains the needed codes and simulated data and results. You can also see a Description text file in each folder that explains details about the folder.
+The folders Simulation 1a, Simulation 1b, and Simulation 2 correspond to the simulation scenarios in the paper. Each folder contains the needed codes and simulated data and results. You can also see a Description text file in each folder that explains details about the folder. 
+
+The folder compare_BCPlaid provides codes to compare with the bi-clustering method BCPlaid, which is implemented in biclust R package. See details in our Supplementary Material.
 
 
 The folder "Functions" contains the main functions implemented for our HSP method. Followings are brief explanations about the functions.
