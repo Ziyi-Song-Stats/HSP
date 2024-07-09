@@ -8,11 +8,25 @@ The R scripts in the folder "Functions" are functions needed to run our HSP meth
 
 * The script "HSP_Rcpp_Functions.cpp" calculates the probability of a given partition under Shrinkage Partition (SP) prior and simulate a new partition via SP prior given a base partition of the same vector of items.
 
-* The script "HSP_MCMC_R_Functions.R" contain all the other functions needed in the posterior inference using our Hierarchical Shrinkage Partition (HSP) prior.
+* The script "HSP_MCMC_R_Functions.R" contain all the other functions needed for the posterior inference using our Hierarchical Shrinkage Partition (HSP) prior.
 
-Libraries: 
+Libraries: Rcpp, RcppArmaillo, MASS, mnormt, MCMCprecision, invgamma. 
 
-### Instructions for Use
+# Example: instructions for use
+
+We now explain how to run our HSP method via a simple simulation example.
+
+## Simulating data matrix
+
+We begin by 
+
+## Running HSP
+
+sdf
+
+## Post-processing
+
+sdf
 
 Feel free to download the zip file. Codes used for the paper should be in it.
 
