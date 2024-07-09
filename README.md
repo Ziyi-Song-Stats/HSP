@@ -1,4 +1,18 @@
-This folder contains the code for the paper ”Clustering Computer Mouse Tracking Data with Informed Hierarchical Shrinkage Partition Priors" by Ziyi Song, Weining Shen, Marina Vannucci, Alexandria Baldizon, Paul M. Cinciripini, Francesco Versace, and Michele Guindani (2023).
+# Hierarchical Shrinkage Priors
+R code for the paper:
+"Clustering Computer Mouse Tracking Data with Informed Hierarchical Shrinkage Partition Priors".
+
+## Code 
+
+The R scripts in the folder "Functions" are functions needed to run our HSP method. 
+
+* The script "HSP_Rcpp_Functions.cpp" calculates the probability of a given partition under Shrinkage Partition (SP) prior and simulate a new partition via SP prior given a base partition of the same vector of items.
+
+* The script "HSP_MCMC_R_Functions.R" contain all the other functions needed in the posterior inference using our Hierarchical Shrinkage Partition (HSP) prior.
+
+Libraries: 
+
+### Instructions for Use
 
 Feel free to download the zip file. Codes used for the paper should be in it.
 
