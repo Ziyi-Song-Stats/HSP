@@ -168,19 +168,8 @@ f1measure_HSP = F1Measure(est.partition=avg$cl[1,], true.partition=true.col.part
 ```
 We use `mcclust.ext::minVI` to obtain an estimated partition of columns, see it in `avg$cl[1,]`. Then we can calculate ARI and F1 measurements between the estimated partition of columns and the ground truth. 
 
-
+Likewise, in the following, we can also use `mcclust.ext::minVI` to obtain an estimated partition of rows within each column. Then we calculate ARI's and F1's of the estimated partition of rows under each column, and average them across all the columns to use as evaluation indexes.    
 ```{r}
-# Thinning
-seq_thin = seq(0.2*Iters, Iters, by=1)
-
-true.col.partition = c( rep(1,4), rep(2,4), rep(3,4) )
-MCMClabels.c = hsp$partition_c_iterations[seq_thin, ]       
-psm.c = comp.psm(MCMClabels.c)
-avg = minVI(psm.c, MCMClabels.c, method=("all"), include.greedy=TRUE)
-subject_groups_number = max(avg$cl[1,])
-ari_HSP = arandi(avg$cl[1,], true.col.partition)
-f1measure_HSP = F1Measure(est.partition=avg$cl[1,], true.partition=true.col.partition)
-
 ari_HSP.subjects = rep(NA, J)
 f1measure_HSP.subjects = rep(NA, J)
 for (j in 1:J){
@@ -193,7 +182,6 @@ for (j in 1:J){
 }
 ari_HSP.subjects.avg = mean(ari_HSP.subjects)
 f1measure_HSP.subjects.avg = mean(f1measure_HSP.subjects)
-
 
 results = list("subject_groups_number" = subject_groups_number,
                "ari_HSP" = ari_HSP,
