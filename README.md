@@ -155,6 +155,23 @@ hsp = hierarchical_shrinkage_partition_permute(datas=datas, init_partition_c=ini
 ```{r}
 # Thinning
 seq_thin = seq(0.2*Iters, Iters, by=1)
+```
+
+```{r}
+true.col.partition = c( rep(1,4), rep(2,4), rep(3,4) )
+MCMClabels.c = hsp$partition_c_iterations[seq_thin, ]       
+psm.c = comp.psm(MCMClabels.c)
+avg = minVI(psm.c, MCMClabels.c, method=("all"), include.greedy=TRUE)
+subject_groups_number = max(avg$cl[1,])
+ari_HSP = arandi(avg$cl[1,], true.col.partition)
+f1measure_HSP = F1Measure(est.partition=avg$cl[1,], true.partition=true.col.partition)
+```
+We use `mcclust.ext::minVI` to obtain an estimated partition of columns, see it in `avg$cl[1,]`. Then we can calculate ARI and F1 measurements between the estimated partition of columns and the ground truth. 
+
+
+```{r}
+# Thinning
+seq_thin = seq(0.2*Iters, Iters, by=1)
 
 true.col.partition = c( rep(1,4), rep(2,4), rep(3,4) )
 MCMClabels.c = hsp$partition_c_iterations[seq_thin, ]       
@@ -191,6 +208,3 @@ The folders Simulation 1a, Simulation 1b, and Simulation 2 correspond to the sim
 
 The folder compare_BCPlaid provides codes to compare with the bi-clustering method BCPlaid, which is implemented in biclust R package. See details in our Supplementary Material.
 
-
-
-"HSPSimulations.R": Given simulated data, informed base partitions of subjects and conditions, and shrinkage parameter values and others, it runs our method and put mcmc results in a list, called hsp. Then, it calculate ARI and F1 measurements between the estimated partitions and ground truth or the given base partitions. You can change the shrinkage parameter values by yourself when you run it. See details in our paper.
