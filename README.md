@@ -4,11 +4,11 @@ R code for the paper:
 
 ## Code 
 
-The R scripts in the folder "Functions" are functions needed to run our HSP method. 
+The R scripts in the folder `Functions` are functions needed to run our HSP method. 
 
-* The script "HSP_Rcpp_Functions.cpp" calculates the probability of a given partition under Shrinkage Partition (SP) prior and simulate a new partition via SP prior given a base partition of the same vector of items.
+* The script `HSP_Rcpp_Functions.cpp` calculates the probability of a given partition under Shrinkage Partition (SP) prior and simulate a new partition via SP prior given a base partition of the same vector of items.
 
-* The script "HSP_MCMC_R_Functions.R" contain all the other functions needed for the posterior inference using our Hierarchical Shrinkage Partition (HSP) prior.
+* The script `HSP_MCMC_R_Functions.R` contain all the other functions needed for the posterior inference using our Hierarchical Shrinkage Partition (HSP) prior.
 
 Libraries: Rcpp, RcppArmaillo, MASS, mnormt, MCMCprecision, invgamma. 
 
@@ -30,7 +30,7 @@ source("HSP_MCMC_R_Functions.R")
 
 ## Simulating data
 
-Then we start with simulating data in the format needed to run the HSP method. For simplicity, we generate a small matrix of true labels with 12 columns and 18 rows. We focus on the nested clusterings of rows within each column. The labels are not shared across columns. 
+Then we start with simulating data in the format needed to run the HSP method. For simplicity, we generate a small matrix of true labels with 12 columns and 18 rows, `labels.matrix`. We focus on the nested clusterings of rows within each column. The labels are not shared across columns. 
 ``` r
 J=12; I=18
 
@@ -75,12 +75,42 @@ labels.matrix
 #> [17,]   2    3    3    3    2    2    2    2    3     3     2     3
 #> [18,]   2    3    3    3    2    2    2    2    3     3     2     3
 ```
-We suppose that the 12 columns are clustered into 3 groups, i.e., { column 1-4, column 5-8, column 9-12 }, such that nested clusterings of rows are more similar (not necessarily identical) within each column group rather than across the column groups.  
+We suppose that the above 12 columns are clustered into 3 groups, i.e., { column 1-4, column 5-8, column 9-12 }, since the nested clusterings of rows are more similar (not necessarily identical) within each of these column groups rather than across the column groups. 
+
+According to the matrix of true labels, we simulate data points correspondingly stored in `datas` in the format of `List` in `R`.
+
+```{r}
+datas = list()
+v = c(-0.97, 0.15, 1.37)
+for (j in 1:J){
+  n.clust = max(labels.matrix[,j])
+  th = sample(v, size=n.clust, replace=FALSE, prob=NULL)
+  datas[[j]] = rnorm(I, mean=th[labels.matrix[,j]], sd=sqrt(0.16))
+}
+```
 
 
 ## Running HSP
 
-sdf
+Before fitting our method, we need to assign initial values for the partition of columns, base partitions for rows, partitions of rows, all the kernel parameters, and all the permutattion parameters, for the sake of MCMC samplings. Users can choose their own initial values based on the domain knowledge about their real data. 
+```{r}
+init_partition_c = rep(1,J)
+init_mu_partitions = init_pi_partitions = init_thetas = list()
+for (j in 1:J){
+  init_mu_partitions[[j]] = rep(1,I)
+  init_pi_partitions[[j]] = rep(1,I)
+  init_thetas[[j]] = cbind(mu.ast=rep(mean(datas[[j]]),I), 
+                           sigma.ast=rep(sd(datas[[j]]),I) )
+}
+
+init_permutation_c = seq(1, J)
+init_permutation_mus = init_permutation_pis = list()
+for (j in 1:J){
+  init_permutation_mus[[j]] = seq(1, I)
+  init_permutation_pis[[j]] = seq(1, I)
+}
+```
+
 
 ## Post-processing
 
