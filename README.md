@@ -14,11 +14,23 @@ Libraries: Rcpp, RcppArmaillo, MASS, mnormt, MCMCprecision, invgamma.
 
 # Example: instructions for use
 
-We now explain how to run our HSP method via a simple simulation example.
+We now explain how to run our HSP method via a simple simulation example. 
 
-## Simulating data matrix
+We first set up all the required files and libararies.
+```{r}
+library(MASS)
+library(mnormt)
+library(MCMCprecision)
+library(invgamma)
+library(Rcpp)
+library(RcppArmadillo)
+Rcpp::sourceCpp("HSP_Rcpp_Functions.cpp")
+source("HSP_MCMC_R_Functions.R")
+```
 
-We begin by 
+## Simulating data
+
+Then we start with simulating data in the format needed to run the HSP method. We generate a matrix of true labels with 30 columns and 18 rows. We focus on the nested clusterings of rows within each column. The labels are not shared across columns. 
 
 ## Running HSP
 
