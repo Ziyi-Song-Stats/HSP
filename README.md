@@ -22,10 +22,9 @@ In the folder `"Simulations"`:
 
 * Folder `"Simulation_1a"`: "HSP_Simulation_1a" contains our codes and results on 50 replications by running the HSP method under Simulation scenario 1(a); "NoBLoC_Simulation_1a" contains results by the NoB-LoC method under scenario 1(a); "Simulation_1a_plots.Rmd" draws the Figure 1 in our supplementary file.  
 
-The folders Simulation 1a, Simulation 1b, and Simulation 2 correspond to the simulation scenarios in the paper. Each folder contains the needed codes and simulated data and results. You can also see a Description text file in each folder that explains details about the folder. 
 
-The folder compare_BCPlaid provides codes to compare with the bi-clustering method BCPlaid, which is implemented in biclust R package. See details in our Supplementary Material.
 
+The folder compare_BCPlaid provides codes to compare with the bi-clustering method BCPlaid, which is implemented in biclust R package. 
 # Example: instructions for use
 
 We now explain how to run our HSP method via a simple simulation example. 
