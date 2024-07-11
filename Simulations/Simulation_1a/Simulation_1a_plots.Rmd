@@ -1,0 +1,94 @@
+
+
+```{r}
+ari_HSP0 = rep(NA, 50)
+f1measure_HSP0 = rep(NA, 50)
+ari_HSP.subjects.avg0 = rep(NA, 50)
+f1measure_HSP.subjects.avg0 = rep(NA, 50)
+ari_NoBLoC0 = rep(NA, 50)
+f1measure_NoBLoC0 = rep(NA, 50)
+ari_NoBLoC.subjects.avg0 = rep(NA, 50)
+f1measure_NoBLoC.subjects.avg0 = rep(NA, 50)
+
+
+for (i in 1:50){
+  hsp = readRDS(paste0("Simulations/Simulation_1a/HSP_Simulation_1a/HSP_Simulation_1a_Results/HSP_Simulation_Results_Seeds",
+                      i, ".RDS"))
+  ari_HSP0[i] = hsp$ari_HSP
+  f1measure_HSP0[i] = hsp$f1measure_HSP
+  ari_HSP.subjects.avg0[i] = hsp$ari_HSP.subjects.avg
+  f1measure_HSP.subjects.avg0[i] = hsp$f1measure_HSP.subjects.avg
+}
+ari_NoBLoC0 = readRDS("Simulations/Simulation_1a/NoBLoC_Simulation_1a/ari_NoBLoC.subjects.RDS")
+f1measure_NoBLoC0 = readRDS("Simulations/Simulation_1a/NoBLoC_Simulation_1a/f1measure_NoBLoC.subjects.RDS")
+ari_NoBLoC.subjects.avg0 = readRDS("Simulations/Simulation_1a/NoBLoC_Simulation_1a/ari_NoBLoC.subjects.avg.RDS")
+f1measure_NoBLoC.subjects.avg0 = readRDS("Simulations/Simulation_1a/NoBLoC_Simulation_1a/f1measure_NoBLoC.subjects.avg.RDS")
+```
+
+
+```{r}
+TTT = data.frame(ARI=c(ari_HSP0, ari_NoBLoC0), Model=c(rep("HSP",50),rep("NoB-LoC",50)))
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=ARI, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="ARI: clustering subjects", x="Models", y="Adjusted Rand Index") +
+  ylim(0,1) +
+  theme_classic()
+ggsave("Sim1a.subjects.ari.pdf", 
+       width=5, height=3.5)
+
+TTT = data.frame(F1_Measure=c(f1measure_HSP0, f1measure_NoBLoC0), Model=c(rep("HSP",50),rep("NoB-LoC",50)))
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=F1_Measure, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="F1-Measure: clustering subjects", x="Models", y="F1-Measure") +
+  ylim(0,1) + 
+  theme_classic()
+ggsave("Sim1a.subjects.f1measure.pdf", 
+       width=5, height=3.5)
+
+TTT = data.frame(ARI.subjects.avg=c(ari_HSP.subjects.avg0, ari_NoBLoC.subjects.avg0),
+                 Model=c(rep("HSP",50),rep("NoB-LoC",50)))
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=ARI.subjects.avg, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="(averaged across subjects) \n ARI: clustering conditions", x="Models", y="Adjusted Rand Index") +
+  #scale_fill_manual(values=c("#999999", "#E69F00")) + 
+  # ylim(0,1) +
+  theme_classic()
+ggsave("Sim1a.conditions.ari.pdf", 
+       width=5, height=3.5)
+
+TTT = data.frame(F1Measure.subjects.avg=c(f1measure_HSP.subjects.avg0, f1measure_NoBLoC.subjects.avg0),
+                 Model=c(rep("HSP",50),rep("NoB-LoC",50)))
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=F1Measure.subjects.avg, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="(averaged across subjects) \n F1-Measure: clustering conditions", x="Models", y="F1 Measure") +
+  #scale_fill_manual(values=c("#999999", "#E69F00")) + 
+  # ylim(0,1) +
+  theme_classic()
+ggsave("Sim1a.conditions.f1measure.pdf", 
+       width=5, height=3.5)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
