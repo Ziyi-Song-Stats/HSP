@@ -20,11 +20,14 @@ Libraries we need:
 
 In the folder `"Simulations"`:
 
-* Folder `"Simulation_1a"`: "HSP_Simulation_1a" contains our codes and results on 50 replications by running the HSP method under Simulation scenario 1(a); "NoBLoC_Simulation_1a" contains results by the NoB-LoC method under scenario 1(a); "Simulation_1a_plots.Rmd" draws the Figure 1 in our supplementary file.  
+* Folder `"Simulation_1a"`: "HSP_Simulation_1a" contains our codes and results on 50 replications by running the HSP method under Simulation scenario 1(a); "NoBLoC_Simulation_1a" contains results by the NoB-LoC method under scenario 1(a); "Simulation_1a_plots.Rmd" draws the Figure 1 in our supplementary file.
+
+* Folder `"Simulation_2"`: "HSP_Simulation_2" are our codes and 50 replications results by running the HSP under Simulation scenario 2; "HHDP_Simulation_2" are results by the alternative HHDP method under scenario 2; "Simulation_2_plots.Rmd" plots the Figure 3 in the supplementary file.
 
 
 
 The folder compare_BCPlaid provides codes to compare with the bi-clustering method BCPlaid, which is implemented in biclust R package. 
+
 # Example: instructions for use
 
 We now explain how to run our HSP method via a simple simulation example. 
