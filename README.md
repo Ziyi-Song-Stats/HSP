@@ -6,13 +6,19 @@ Feel free to contact me via ziyis9@uci.edu if you are interested in it.
 
 ## Code 
 
-The R scripts in the folder `Functions` are functions needed to run our HSP method. 
+In the folder `"Functions"`:
 
 * The script `HSP_Rcpp_Functions.cpp` calculates the probability of a given partition under Shrinkage Partition (SP) prior and simulate a new partition via SP prior given a base partition of the same vector of items.
 
 * The script `HSP_MCMC_R_Functions.R` contain all the other functions needed for the posterior inference using our Hierarchical Shrinkage Partition (HSP) prior.
 
-Libraries: Rcpp, RcppArmaillo, MASS, mnormt, MCMCprecision, invgamma, mcclust, mcclust.ext. 
+* The script `HSP_demo.Rmd`explains how to run the method on a simple example, which is illustrated in the followings. 
+
+Libraries we need: 
+
+* `Rcpp`, `RcppArmaillo`, `MASS`, `mnormt`, `MCMCprecision`, `invgamma`, `mcclust`, `mcclust.ext`.
+
+In the folder `"Simulation"`:
 
 The folders Simulation 1a, Simulation 1b, and Simulation 2 correspond to the simulation scenarios in the paper. Each folder contains the needed codes and simulated data and results. You can also see a Description text file in each folder that explains details about the folder. 
 
