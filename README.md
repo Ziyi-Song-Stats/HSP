@@ -10,9 +10,9 @@ In the folder `"Functions"`:
 
 * The script `HSP_Rcpp_Functions.cpp` calculates the probability of a given partition under Shrinkage Partition (SP) prior and simulate a new partition via SP prior given a base partition of the same vector of items.
 
-* The script `HSP_MCMC_R_Functions.R` contain all the other functions needed for the posterior inference using our Hierarchical Shrinkage Partition (HSP) prior.
+* The script `HSP_MCMC_R_Functions.R` contains all the other functions needed for the posterior inference using our Hierarchical Shrinkage Partition (HSP) prior.
 
-* The script `HSP_demo.Rmd`explains how to run the method on a simple example, which is illustrated in the followings. 
+* The script `HSP_Demo.Rmd` explains how to run the method on a simple example, which is illustrated in the followings. 
 
 Libraries we need: 
 
