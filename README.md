@@ -34,19 +34,21 @@ source("HSP_MCMC_R_Functions.R")
 
 ## Simulating data
 
-Then we start with simulating data in the format needed to run the HSP method. For simplicity, we generate a small matrix of true labels with 12 columns and 18 rows, `labels.matrix`. We focus on the nested clusterings of rows within each column. The labels are not shared across columns. 
-``` r
-J=12; I=18
+Then we start with simulating data in the format needed to run the HSP method. Here we generate a matrix of true labels with 60 columns and 30 rows, `labels.matrix`. We focus on the nested clusterings of rows within each column. The labels are not shared across columns. 
+```{r}
+set.seed(1)
+
+J=60; I=30
 
 labels.matrix = matrix(NA, nrow=I, ncol=J)
-for (j in 1:4){
-  labels.matrix[,j] = c(rep(1,3), rep(1,3), rep(2,3), rep(2,3), rep(3,3), rep(3,3))
+for (j in 1:20){
+  labels.matrix[,j] = c(rep(1,5), rep(1,5), rep(2,5), rep(2,5), rep(3,5), rep(3,5))
 }
-for (j in 5:8){
-  labels.matrix[,j] = c(rep(1,3), rep(2,3), rep(3,3), rep(1,3), rep(3,3), rep(2,3))
+for (j in 21:40){
+  labels.matrix[,j] = c(rep(1,5), rep(2,5), rep(3,5), rep(1,5), rep(3,5), rep(2,5))
   }
-for (j in 9:J){
-  labels.matrix[,j] = c(rep(1,3), rep(2,3), rep(1,3), rep(3,3), rep(2,3), rep(3,3))
+for (j in 41:J){
+  labels.matrix[,j] = c(rep(1,5), rep(2,5), rep(1,5), rep(3,5), rep(2,5), rep(3,5))
 }
 turbulence = 0.1 * I
 for (j in 1:J){
@@ -56,30 +58,47 @@ for (j in 1:J){
     }
   labels.matrix[,j] = relabel(labels.matrix[,j])
 }
-
-labels.matrix
-#>
-#>        [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8] [,9] [,10] [,11] [,12]
-#> [1,]    1    1    1    1    1    1    1    1    1     1     1     1
-#> [2,]    1    1    1    1    1    1    1    1    1     2     1     1
-#> [3,]    2    1    1    1    1    1    1    1    1     1     1     1
-#> [4,]    1    1    1    1    2    2    2    2    2     2     2     1
-#> [5,]    1    1    1    1    2    2    2    2    2     2     3     2
-#> [6,]    1    1    1    1    2    2    2    2    2     2     3     2
-#> [7,]    3    2    2    2    3    3    3    3    1     1     1     1
-#> [8,]    3    1    2    2    3    3    3    3    1     1     1     1
-#> [9,]    3    2    2    2    3    3    3    3    1     1     1     1
-#> [10,]   3    2    2    2    1    1    1    1    3     3     2     3
-#> [11,]   3    2    2    2    1    1    1    1    3     3     2     3
-#> [12,]   3    2    2    2    1    1    1    1    1     3     2     3
-#> [13,]   2    3    3    3    3    3    3    3    2     2     3     2
-#> [14,]   2    3    3    3    3    3    3    3    2     2     3     2
-#> [15,]   2    3    3    3    2    3    3    3    2     2     3     2
-#> [16,]   2    3    3    3    2    3    2    2    3     3     2     3
-#> [17,]   2    3    3    3    2    2    2    2    3     3     2     3
-#> [18,]   2    3    3    3    2    2    2    2    3     3     2     3
 ```
-We suppose that the above 12 columns are clustered into 3 groups, i.e., { column 1-4, column 5-8, column 9-12 }, since the nested clusterings of rows are more similar (not necessarily identical) within each of these column groups rather than across the column groups. 
+We suppose that these 60 columns are clustered into 3 groups, i.e., { column 1-20, column 21-40, column 41-60 }, since the nested clusterings of rows are more similar (not necessarily identical) within each of these column groups rather than across the column groups. 
+
+We print out the whole `labels.matrix` for bettering understanding.
+```{r}
+#labels.matrix
+options(max.print = I*J)
+prmatrix(labels.matrix, rowlab=rep("",I), collab=rep("",J))
+#> 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
+#> 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 2 1 2 1
+#> 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 2 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 2 1 1 1
+#> 2 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1
+#> 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 2 1 1 3 1 1 1 2 1 1 1
+#> 1 1 2 1 1 1 2 1 2 2 1 2 1 1 1 2 1 1 2 1 2 2 1 3 2 2 2 3 2 2 3 2 3 2 2 1 2 2 2 2 2 2 2 1 2 3 2 2 2 3 2 2 3 2 2 2 3 2 3 1
+#> 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2 2 2 3 2 2 3 3 2 2 3 2 3 2 2 2 2 2 2 2 2 1 2 3 2 3 2 2 2 3 2 3 3 2 2 2 3 1 3 2
+#> 1 1 2 1 1 1 1 1 1 1 1 3 1 1 1 1 1 1 2 1 2 2 2 3 2 2 2 3 2 2 3 2 3 2 2 2 2 2 2 2 1 1 2 3 2 3 2 2 2 3 2 2 3 2 2 2 3 2 3 2
+#> 1 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 2 2 2 3 2 2 2 3 1 2 3 2 3 2 2 3 3 1 2 2 2 2 3 3 1 3 2 2 2 3 2 2 3 2 3 2 3 2 3 2
+#> 1 1 2 2 1 2 3 1 1 2 1 1 1 1 1 1 1 2 3 1 2 2 2 3 2 2 2 3 2 2 3 2 3 2 2 2 2 2 1 2 2 2 2 3 2 3 3 2 2 3 2 2 3 2 2 2 3 2 3 3
+#> 2 2 1 3 2 3 2 2 3 2 2 2 1 2 2 3 2 3 3 2 3 2 3 2 3 3 3 2 3 3 2 3 2 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1
+#> 2 3 1 3 2 2 2 2 3 2 2 2 2 2 2 3 2 3 1 2 3 3 3 2 3 3 3 2 3 3 2 3 2 2 3 3 1 3 3 3 1 1 1 1 1 1 1 2 1 1 1 1 1 1 1 1 2 1 1 1
+#> 2 3 1 3 2 3 2 2 3 2 2 2 2 2 1 3 2 3 1 2 3 3 3 2 3 3 3 2 3 3 2 3 2 3 3 3 3 3 3 3 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 1 3 1 1 1
+#> 2 2 1 3 2 3 2 2 3 2 3 2 2 2 2 3 2 3 1 2 3 3 3 3 1 3 3 2 3 3 2 3 2 3 3 3 3 3 1 3 1 1 1 1 1 2 1 1 1 1 1 1 1 1 1 1 2 1 1 1
+#> 2 3 1 3 2 3 2 2 3 2 2 2 2 2 2 3 2 3 1 2 3 3 3 2 3 3 1 2 3 3 2 3 1 3 3 3 3 3 3 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1
+#> 2 3 1 3 2 3 2 2 3 2 2 2 2 2 2 3 2 3 1 2 1 1 1 1 1 1 1 3 1 1 1 2 1 1 1 1 1 1 1 1 3 3 3 2 3 2 3 2 3 2 3 3 2 3 3 3 1 3 1 3
+#> 2 3 1 3 2 3 2 2 3 2 2 2 2 2 2 2 2 3 1 2 1 1 1 2 1 3 1 1 1 3 1 1 1 1 1 1 1 1 1 1 3 3 3 2 3 2 3 3 1 2 1 3 2 3 3 3 1 3 2 3
+#> 2 3 1 3 2 3 2 2 3 2 2 2 2 2 2 3 2 3 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 3 3 3 2 3 2 3 3 3 2 2 3 2 3 3 3 1 3 2 3
+#> 2 3 1 3 2 3 2 2 3 2 2 3 2 2 2 3 2 3 1 2 1 1 1 1 2 1 1 1 1 3 1 1 1 1 1 1 1 1 1 1 3 3 3 2 3 2 3 3 3 2 3 3 2 3 3 3 2 3 2 3
+#> 2 3 1 3 2 3 2 2 3 2 2 2 2 2 2 3 2 3 1 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 1 1 1 1 1 3 3 3 2 3 2 1 3 3 2 3 3 1 3 3 3 1 3 1 3
+#> 3 2 1 2 3 2 3 3 2 3 3 3 3 3 3 1 3 2 3 3 3 3 3 2 3 3 3 2 3 3 2 3 2 3 3 3 3 2 3 3 2 2 2 3 2 3 2 2 2 3 2 2 3 2 2 2 3 2 3 2
+#> 3 2 3 2 3 2 3 3 2 3 1 3 3 3 1 2 3 2 3 3 3 3 1 2 3 3 3 2 3 3 2 3 2 3 3 3 3 3 3 3 2 2 2 3 2 3 2 2 2 3 2 2 3 2 2 2 3 2 3 2
+#> 3 3 3 2 3 2 3 1 3 3 3 3 3 1 3 2 3 2 3 3 3 3 3 2 3 3 3 2 3 3 2 3 2 3 3 3 3 3 3 3 2 2 2 3 2 3 2 2 2 3 2 2 3 2 2 2 3 2 3 2
+#> 3 2 3 2 3 2 3 3 2 1 3 3 3 3 3 2 3 2 3 3 1 3 3 2 3 2 3 2 3 3 2 3 2 3 3 1 3 3 3 3 2 2 2 3 2 3 2 2 2 3 2 2 3 2 2 2 3 2 3 2
+#> 1 2 3 2 1 1 3 1 2 3 3 3 3 3 3 2 3 2 3 3 3 3 3 2 3 3 3 2 3 3 2 3 2 3 3 3 3 3 2 3 2 2 2 3 3 3 2 2 2 2 2 2 3 2 2 2 3 2 3 2
+#> 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 3 2 3 2 2 1 2 3 2 2 2 3 2 2 3 2 3 2 2 2 2 2 2 2 3 3 3 2 3 2 3 3 3 2 3 3 2 3 3 3 1 3 2 3
+#> 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 3 2 3 3 2 2 2 3 2 2 1 3 2 2 3 2 3 2 2 2 1 2 2 2 3 3 1 2 3 2 3 3 3 2 3 1 2 2 3 3 1 3 2 3
+#> 3 2 3 2 3 2 3 3 2 3 3 3 3 3 1 2 3 3 3 3 2 2 1 3 2 2 2 3 2 2 3 2 3 2 2 2 2 2 2 2 3 3 3 2 3 3 3 3 2 2 3 3 2 3 2 3 1 3 2 1
+#> 3 2 1 2 3 2 2 3 2 3 3 3 3 3 3 2 3 2 3 1 2 2 2 3 2 2 2 3 2 2 3 2 3 2 2 2 2 1 2 2 3 3 3 2 3 2 2 2 3 2 3 3 2 3 3 2 1 3 2 3
+#> 3 2 3 2 3 2 3 3 2 3 3 3 3 3 3 2 3 2 3 3 2 2 2 3 2 2 2 3 2 2 1 2 3 2 2 2 2 2 2 2 3 3 2 2 3 2 3 3 3 2 3 2 2 3 3 3 1 3 2 3
+```
+
+
 
 According to the matrix of true labels, we simulate data points correspondingly stored in `datas` in the format of `List` in `R`.
 
@@ -121,11 +140,11 @@ Here we let $\boldsymbol{\tau} = \boldsymbol{\rho} = 0$ and $\boldsymbol{\lambda
 ```{r}
 shrink_c = 0; shrink_mu = 0; shrink_pi = 3.5
 
-baseline_for_c = c(rep(1,4), rep(2,4), rep(3,4))
+baseline_for_c = c(rep(1,20), rep(2,20), rep(3,20))
 shrink_para_for_c = rep(shrink_c, J)
 crp_para_for_c = 1
 
-baseline_for_mu = rep(1:6, each=3)
+baseline_for_mu = rep(1:6, each=5)
 shrink_para_for_mu = rep(shrink_mu, I) 
 crp_para_for_mu = 1 
 
@@ -135,7 +154,7 @@ crp_para_for_pi = 1
 
 We fit our method and MCMC posterior samplings are stored in `hsp'.
 ```{r}
-Iters = 10000
+Iters = 5000
 hsp = hierarchical_shrinkage_partition_permute(datas=datas, init_partition_c=init_partition_c, 
                                                init_mu_partitions=init_mu_partitions,
                                                init_pi_partitions=init_pi_partitions,
@@ -158,7 +177,7 @@ seq_thin = seq(0.2*Iters, Iters, by=1)
 ```
 
 ```{r}
-true.col.partition = c( rep(1,4), rep(2,4), rep(3,4) )
+true.col.partition = c( rep(1,20), rep(2,20), rep(3,20) )
 MCMClabels.c = hsp$partition_c_iterations[seq_thin, ]       
 psm.c = comp.psm(MCMClabels.c)
 avg = minVI(psm.c, MCMClabels.c, method=("all"), include.greedy=TRUE)
@@ -166,7 +185,15 @@ subject_groups_number = max(avg$cl[1,])
 ari_HSP = arandi(avg$cl[1,], true.col.partition)
 f1measure_HSP = F1Measure(est.partition=avg$cl[1,], true.partition=true.col.partition)
 ```
-We use `mcclust.ext::minVI` to obtain an estimated partition of columns, see it in `avg$cl[1,]`. Then we can calculate ARI and F1 measurements between the estimated partition of columns and the ground truth. 
+We use `mcclust.ext::minVI` to obtain an estimated partition of columns, see it in `avg$cl[1,]`. Then we can calculate ARI and F1 measurements between the estimated partition of columns and the ground truth partition of columns, see `ari_HSP` and `f1measure_HSP`. 
+```{r}
+avg$cl[1,]
+#> 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3
+ari_HSP
+#> 1
+f1measure_HSP
+#> 1
+```
 
 Likewise, in the following, we can also use `mcclust.ext::minVI` to obtain an estimated partition of rows within each column. Then we calculate ARI's and F1's of the estimated partition of rows under each column, and average them across all the columns to use as evaluation indexes.    
 ```{r}
