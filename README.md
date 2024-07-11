@@ -249,6 +249,6 @@ f1measure_HSP.subjects
 ```
 
 ### Codes for alternative methods
-If one is interested in the alternative methods, NoB-LoC and HHDP, please contact with the authors Dr. Juhee Lee at UC Santa Cruz and Dr. Giovanni Rebaudo at University of Torino.
+If one is interested in codes for the alternative methods, NoB-LoC and HHDP, please contact with the authors Dr. Juhee Lee at UC Santa Cruz and Dr. Giovanni Rebaudo at University of Torino.
 
 
