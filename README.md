@@ -18,7 +18,9 @@ Libraries we need:
 
 * `Rcpp`, `RcppArmaillo`, `MASS`, `mnormt`, `MCMCprecision`, `invgamma`, `mcclust`, `mcclust.ext`.
 
-In the folder `"Simulation"`:
+In the folder `"Simulations"`:
+
+* Folder `"Simulation_1a"`: "HSP_Simulation_1a" contains our codes and results on 50 replications by running the HSP method under Simulation scenario 1(a); "NoBLoC_Simulation_1a" contains results by the NoB-LoC method under scenario 1(a); "Simulation_1a_plots.Rmd" draws the Figure 1 in our supplementary file.  
 
 The folders Simulation 1a, Simulation 1b, and Simulation 2 correspond to the simulation scenarios in the paper. Each folder contains the needed codes and simulated data and results. You can also see a Description text file in each folder that explains details about the folder. 
 
@@ -245,4 +247,8 @@ f1measure_HSP.subjects
 #> [37] 0.8189084 0.9047619 0.8591228 0.8935574 0.9333333 0.8994709 1.0000000 0.8544212 0.9696342 0.9342161 0.8227208 1.0000000
 #> [49] 1.0000000 0.8549114 1.0000000 0.8532491 0.8819444 0.9679634 0.9665831 0.9658994 0.9679634 0.9665831 0.9333333 0.9696342
 ```
+
+### Codes for alternative methods
+If one is interested in the alternative methods, NoB-LoC and HHDP, please contact with the authors Dr. Juhee Lee at UC Santa Cruz and Dr. Giovanni Rebaudo at University of Torino.
+
 
