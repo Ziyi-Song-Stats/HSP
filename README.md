@@ -14,6 +14,10 @@ The R scripts in the folder `Functions` are functions needed to run our HSP meth
 
 Libraries: Rcpp, RcppArmaillo, MASS, mnormt, MCMCprecision, invgamma, mcclust, mcclust.ext. 
 
+The folders Simulation 1a, Simulation 1b, and Simulation 2 correspond to the simulation scenarios in the paper. Each folder contains the needed codes and simulated data and results. You can also see a Description text file in each folder that explains details about the folder. 
+
+The folder compare_BCPlaid provides codes to compare with the bi-clustering method BCPlaid, which is implemented in biclust R package. See details in our Supplementary Material.
+
 # Example: instructions for use
 
 We now explain how to run our HSP method via a simple simulation example. 
@@ -217,9 +221,22 @@ results = list("subject_groups_number" = subject_groups_number,
                "f1measure_HSP.subjects.avg" = f1measure_HSP.subjects.avg)
 ```
 
+See `ari_HSP.subjects` and `f1measure_HSP.subjects` for the ARI's and F1's of the estimated partition of rows within each column.
+```{r}
+ari_HSP.subjects
+#> [1] 0.7146016 0.8930258 1.0000000 0.6630845 0.8930258 0.6448297 0.7885475 0.8139524 0.8188699 0.7652962 0.7157276 0.7288461
+#> [13] 0.7179530 0.7351772 0.8896193 0.7967490 0.6167401 0.7967490 1.0000000 0.6980006 1.0000000 0.8930258 0.7908955 0.6135394
+#> [25] 0.6740984 0.8981704 0.8896193 1.0000000 0.6853364 0.7721718 0.9037232 0.8157371 0.5879901 0.7902071 0.8136622 0.6600213
+#> [37] 0.6600213 0.7134387 0.6478329 0.7442869 0.8066667 0.7075791 1.0000000 0.8077870 0.8887752 0.7975604 0.7114575 1.0000000
+#> [49] 1.0000000 0.8535956 1.0000000 0.8010671 0.9454190 0.8934529 0.8981704 0.8989819 0.8934529 0.8981704 0.8074464 0.8887752
+```
 
-
-The folders Simulation 1a, Simulation 1b, and Simulation 2 correspond to the simulation scenarios in the paper. Each folder contains the needed codes and simulated data and results. You can also see a Description text file in each folder that explains details about the folder. 
-
-The folder compare_BCPlaid provides codes to compare with the bi-clustering method BCPlaid, which is implemented in biclust R package. See details in our Supplementary Material.
+```{r}
+f1measure_HSP.subjects
+#> [1] 0.8989821 0.9682540 1.0000000 0.8653199 0.9682540 0.8703704 0.9388889 0.9267399 0.9296296 0.8857143 0.8958548 0.8997494
+#> [13] 0.9011765 0.8933333 0.9691228 0.9363636 0.8222222 0.9363636 1.0000000 0.8376068 1.0000000 0.9682540 0.9351433 0.7277679
+#> [25] 0.8023504 0.9665831 0.9691228 1.0000000 0.8211153 0.8206522 0.9649123 0.8492325 0.7893248 0.8511346 0.8414855 0.8189084
+#> [37] 0.8189084 0.9047619 0.8591228 0.8935574 0.9333333 0.8994709 1.0000000 0.8544212 0.9696342 0.9342161 0.8227208 1.0000000
+#> [49] 1.0000000 0.8549114 1.0000000 0.8532491 0.8819444 0.9679634 0.9665831 0.9658994 0.9679634 0.9665831 0.9333333 0.9696342
+```
 
