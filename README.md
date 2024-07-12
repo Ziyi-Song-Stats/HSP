@@ -20,11 +20,11 @@ Libraries we need:
 
 In the folder `"Simulations"`:
 
-* Folder `"Simulation_1a"`: "HSP_Simulation_1a" contains our codes and results on 50 replications by running the HSP method under Simulation scenario 1(a); "NoBLoC_Simulation_1a" contains results by the NoB-LoC method under scenario 1(a); "Simulation_1a_plots.Rmd" draws the Figure 1 in our supplementary file.
+* Folder `"Simulation_1a"`: "HSP_Simulation_1a" contains our codes and results on 50 replications by running the HSP method under Simulation scenario 1(a); "NoBLoC_Simulation_1a" contains results by the NoB-LoC method under scenario 1(a); "Simulation_1a_plots.Rmd" plots Figure 1 in the supplementary file.
 
-* Folder `"Simulation_1b"`: 
+* Folder `"Simulation_1b"`: "Simulation_1b_HSP_level10" contains our codes and replication results by running HSP under Simulation scenario 1(b) at contamination level of 10%, while "Simulation_1b_NoBLoC_level10_Results" are replication results by NoB-LoC under Simulation scenario 1(b) at contamination level of 10%. Similarly, "Simulation_1b_HSP_level20" and "Simulation_1b_NoBLoC_level20_Results" at contamination level of 20%, and "Simulation_1b_HSP_level30" and "Simulation_1b_NoBLoC_level30_Results" at contamination level of 30%. "Simulation_1b_plots.Rmd" plots Figure 2 in the supplementary file.   
 
-* Folder `"Simulation_2"`: "HSP_Simulation_2" are our codes and 50 replications results by running the HSP under Simulation scenario 2; "HHDP_Simulation_2" are results by the alternative HHDP method under scenario 2; "Simulation_2_plots.Rmd" plots the Figure 3 in the supplementary file.
+* Folder `"Simulation_2"`: "HSP_Simulation_2" are our codes and 50 replications results by running the HSP under Simulation scenario 2; "HHDP_Simulation_2" are results by the alternative HHDP method under scenario 2; "Simulation_2_plots.Rmd" plots Figure 3 in the supplementary file.
 
 * Folder `"Simulation_HSP_vs_BCPlaid"`: For the comparison of HSP and BCPlaid, "Simulation_HSP" contains our codes and replication results by running the HSP, while "Simulation_BCPlaid" are codes and results by running the BCPlaid; "Simulation_HSP_vs_BCPlaid_plots.Rmd" plots Figure 11 in the supplementary file. The bi-clustering method `BCPlaid` is implemented in R `biclust` package.
 
