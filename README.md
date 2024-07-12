@@ -26,7 +26,7 @@ In the folder `"Simulations"`:
 
 * Folder `"Simulation_2"`: "HSP_Simulation_2" are our codes and 50 replications results by running the HSP under Simulation scenario 2; "HHDP_Simulation_2" are results by the alternative HHDP method under scenario 2; "Simulation_2_plots.Rmd" plots the Figure 3 in the supplementary file.
 
-* Folder `"Simulation_compare_BCPlaid"`: The bi-clustering BCPlaid method is implemented in R `biclust` package.
+* Folder `"Simulation_HSP_vs_BCPlaid"`: For the comparison of HSP and BCPlaid, "Simulation_HSP" contains our codes and replication results by running the HSP, while "Simulation_BCPlaid" are codes and results by running the BCPlaid; "Simulation_HSP_vs_BCPlaid_plots.Rmd" plots Figure 11 in the supplementary file. The bi-clustering method `BCPlaid` is implemented in R `biclust` package.
 
 
 # Example: instructions for use
