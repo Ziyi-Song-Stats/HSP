@@ -1,9 +1,0 @@
-
-This file provides codes for the simulation compared with BCPlaid bi-clustering method. 
-
-The BCPlaid is implemented by biclust R package.
-
-"compare_BCPlaid_plots.Rmd" generates the comparison plot based on the 50 replications.
-
-See details in our Supplementary Material.
-
