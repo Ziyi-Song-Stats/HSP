@@ -189,7 +189,9 @@ The model provides a `list` as output, containing the following elements:
 + ``partition_c_iterations``: MCMC chain for the partition of subjects (columns)
 + `mu_partitions_iterations`: MCMC chain for the base partition of conditions (rows) within each subject
 + `pi_partitions_iterations`: MCMC chain for the partition of conditions within each subject
-+ `permutation_c_iterations`: MCMC chain for the permutation parameter that permutes the order of subjects  
++ `permutation_c_iterations`: MCMC chain for the permutation parameter that permutes order of subjects
++ `permutation_mus_iterations`: MCMC chain for the permutation parameter that permutes order of base partition of conditions within each subject
++ `permutation_pis_iterations`: MCMC chain for the permutation parameter that permutes otder of conditions within each subject   
 
 ## Post-processing and MCMC summary
 
