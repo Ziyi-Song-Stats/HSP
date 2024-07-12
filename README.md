@@ -187,7 +187,9 @@ hsp = hierarchical_shrinkage_partition_permute(datas=datas, init_partition_c=ini
 The model provides a `list` as output, containing the following elements:
 
 + ``partition_c_iterations``: MCMC chain for the partition of subjects (columns)
-+ `mu_partitions_iterations`: MCMC chain for the 
++ `mu_partitions_iterations`: MCMC chain for the base partition of conditions (rows) within each subject
++ `pi_partitions_iterations`: MCMC chain for the partition of conditions within each subject
++ `permutation_c_iterations`: MCMC chain for the permutation parameter that permutes the order of subjects  
 
 ## Post-processing and MCMC summary
 
