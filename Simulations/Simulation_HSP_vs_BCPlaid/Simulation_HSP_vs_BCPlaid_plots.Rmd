@@ -1,0 +1,27 @@
+
+
+```{r}
+r1p4_HSP = rep(NA, 50)
+r1p4_BCPlaid = rep(NA, 50)
+for (i in 1:50){
+  r1p4_HSP[i] = readRDS(paste0("Simulations/Simulation_HSP_vs_BCPlaid/Simulation_HSP/Simulation_HSP_Results/HSP_Simulation_Results_Seeds", i, ".RDS"))
+  r1p4_BCPlaid[i] = readRDS(paste0("Simulations/Simulation_HSP_vs_BCPlaid/Simulation_BCPlaid/Simulation_BCPlaid_Results/BCPlaid_Simulation_Results_Seeds", i, ".RDS"))
+}
+
+r1p4_HSP
+r1p4_BCPlaid
+
+TTT = data.frame(F1Measure=c(r1p4_HSP, r1p4_BCPlaid),
+                 Model=c(rep("HSP",50), rep("BCPlaid",50))
+                 )
+TTT$Model = as.factor(TTT$Model)
+library(ggplot2)
+ggplot(TTT, aes(x=Model, y=F1Measure, fill=Model )) + 
+  geom_boxplot(notch=FALSE) + 
+  labs(title="Performance on Biclusters Detection", x="Models", y="F1 Measure ") +
+  ylim(0,1) +
+  theme_classic()
+ggsave("compare_BCPlaid.pdf", 
+       width=5, height=3.5)
+```
+
